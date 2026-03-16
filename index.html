@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>第一印象タイプ診断</title>
 
 <style>
@@ -14,85 +15,100 @@ box-sizing:border-box;
 body{
 margin:0;
 font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-background:linear-gradient(180deg,#ffd9e5,#f3e7ff,#e6f4ff);
-color:#334;
+
+/* 可愛い背景 */
+
+background:
+radial-gradient(circle at 20% 20%,#ffd9e8 0,#ffd9e800 40%),
+radial-gradient(circle at 80% 10%,#dcd8ff 0,#dcd8ff00 40%),
+radial-gradient(circle at 10% 80%,#c9f1ff 0,#c9f1ff00 40%),
+linear-gradient(180deg,#ffe4ee,#f4ebff,#e8f7ff);
+
+min-height:100vh;
+padding:20px;
 }
 
 .container{
 max-width:420px;
 margin:auto;
-padding:16px;
-}
-
-.hero-banner{
-width:100%;
-border-radius:20px;
-margin-bottom:16px;
 }
 
 .card{
+
 background:white;
-border-radius:24px;
-padding:24px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+border-radius:28px;
+padding:26px;
+box-shadow:0 12px 30px rgba(0,0,0,0.08);
+
 }
 
 .title-small{
 text-align:center;
-color:#666;
 font-size:14px;
+color:#666;
 }
 
 .title-main{
 text-align:center;
 font-size:30px;
 font-weight:bold;
-color:#3f5fd4;
+color:#4a64d6;
 margin-bottom:10px;
 }
 
 .description{
+
 text-align:center;
-line-height:1.8;
+line-height:1.9;
 font-size:15px;
-color:#444;
 margin-bottom:20px;
+color:#444;
+
 }
 
 .grid{
+
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:14px;
+
 }
 
 .choice{
-background:white;
+
 border:none;
-border-radius:18px;
+background:white;
+border-radius:20px;
 overflow:hidden;
-box-shadow:0 8px 18px rgba(0,0,0,0.08);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 cursor:pointer;
+
 }
 
 .choice img{
+
 width:100%;
 aspect-ratio:1/1;
 object-fit:cover;
-display:block;
+
 }
 
 .label{
+
 padding:10px;
 font-weight:bold;
 font-size:15px;
+
 }
 
 .result{
+
 display:none;
 margin-top:20px;
-padding:20px;
-background:#f8f8ff;
+padding:22px;
+background:#f6f7ff;
 border-radius:20px;
+
 }
 
 .result.show{
@@ -102,39 +118,56 @@ display:block;
 .result h2{
 margin:0;
 font-size:20px;
-color:#4a5bd6;
+color:#5566dd;
 }
 
 .result h3{
+
 margin:8px 0;
 font-size:22px;
 color:#ff5f9a;
+
 }
 
 .result p{
+
 line-height:1.8;
+
 }
 
 .cta{
+
 margin-top:16px;
 font-weight:bold;
 color:#ff5f9a;
 text-align:center;
+
 }
 
 .reset{
-margin-top:16px;
+
+margin-top:20px;
 text-align:center;
+
 }
 
 .reset button{
-background:#4a7dff;
+
+background:#4f7cff;
 border:none;
 color:white;
-padding:10px 20px;
-border-radius:20px;
+
+/* 大きくした */
+
+font-size:18px;
+padding:14px 28px;
+
+border-radius:30px;
 font-weight:bold;
 cursor:pointer;
+
+box-shadow:0 6px 16px rgba(79,124,255,0.3);
+
 }
 
 </style>
@@ -144,17 +177,17 @@ cursor:pointer;
 
 <div class="container">
 
-<img src="clear-diagnosis-banner.png" class="hero-banner" alt="CLEARの診断">
-
 <div class="card">
 
 <div class="title-small">あなたの</div>
 <div class="title-main">第一印象タイプ診断</div>
 
 <div class="description">
+
 人から最初にどんな印象を持たれやすいのかを診断します。<br>
 次の4つの絵の中から一番気になるものを<br>
 直感で選んでください。
+
 </div>
 
 <div class="grid">
@@ -193,6 +226,7 @@ cursor:pointer;
 <script>
 
 const results={
+
 sky:{
 title:"① 青空を選んだ人",
 type:"爽やかタイプ",
@@ -216,6 +250,7 @@ title:"④ 猫を選んだ人",
 type:"親しみやすいタイプ",
 text:"柔らかい雰囲気で話しかけやすい印象を持たれやすい人。初対面でも距離が縮まりやすく周りから安心されることが多いです。"
 }
+
 };
 
 function showResult(key){
