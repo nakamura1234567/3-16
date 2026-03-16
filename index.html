@@ -189,19 +189,16 @@
       margin: 0;
       font-size: clamp(28px, 8vw, 42px);
       font-weight: 900;
-      line-height: 1.06;
+      line-height: 1.1;
       letter-spacing: .02em;
-      color: #fff;
-      text-shadow:
-        -4px -4px 0 #7d6dff,
-         4px -4px 0 #7d6dff,
-        -4px  4px 0 #7d6dff,
-         4px  4px 0 #7d6dff,
-         0    7px 0 rgba(255, 127, 176, 0.45);
+      color: #ff5f9a;
     }
 
-    .hero-title .accent {
-      color: #ff6f9b;
+    .hero-banner{
+      width:100%;
+      border-radius:20px;
+      display:block;
+    }
       text-shadow:
         -4px -4px 0 #fff,
          4px -4px 0 #fff,
@@ -399,7 +396,8 @@
     <header class="header">
       <section class="hero">
         <div class="hero-top">
-          <div class="hero-sub">毎週<span style="color:#ff5f9a; font-size:1.2em;">火曜</span>は</div>
+          <img src="clear-diagnosis-banner.png" class="hero-banner" alt="CLEARの診断">
+        </div>
           <h1 class="hero-title">CLEARの<span class="accent">○○</span>診断</h1>
         </div>
       </section>
@@ -441,7 +439,7 @@
         <button class="reset-btn" onclick="resetResult()">もう一度選ぶ</button>
       </div>
 
-      <p class="note">スマホでは2列×2段で表示されます。</p>
+      
     </section>
   </main>
 
@@ -478,6 +476,7 @@
         <h2>${data.title}</h2>
         <h3>${data.type}</h3>
         <p>${data.text}</p>
+        <p style="margin-top:16px;font-weight:700;color:#ff5f9a;">診断結果をもとに、先生に相談してみよう！</p>
       `;
 
       resultBox.classList.add('show');
