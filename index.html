@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第一印象タイプ診断</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: linear-gradient(180deg, #f6fbff 0%, #eef5ff 100%);
+      color: #223;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(59, 88, 140, 0.12);
+      padding: 28px 20px;
+    }
+    .title {
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .title .small {
+      display: block;
+      font-size: 16px;
+      color: #5c6b80;
+      margin-bottom: 8px;
+    }
+    .title .main {
+      display: block;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      color: #2c5aa0;
+    }
+    .lead {
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.9;
+      color: #425066;
+      margin: 18px 0 28px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .choice {
+      border: none;
+      background: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 0;
+      text-align: left;
+    }
+    .choice:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+    }
+    .choice img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+    }
+    .choice-label {
+      padding: 14px 16px 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #24344d;
+    }
+    .result {
+      display: none;
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #f9fcff 0%, #eef6ff 100%);
+      border: 1px solid #d9e7ff;
+    }
+    .result.show {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
+    .result h2 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      color: #2957a4;
+    }
+    .result h3 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      color: #1f2f4a;
+    }
+    .result p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.9;
+      color: #3e4b63;
+      white-space: pre-line;
+    }
+    .actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .reset-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      background: #2c5aa0;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .note {
+      margin-top: 18px;
+      text-align: center;
+      color: #66748a;
+      font-size: 14px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 22px 14px; }
+      .choice-label { font-size: 17px; }
+      .result p { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="title">
+        <span class="small">あなたの</span>
+        <span class="main">第一印象タイプ診断</span>
+      </div>
+
+      <p class="lead">
+        人から最初にどんな印象を持たれやすいのかを診断します。<br>
+        次の4つの絵の中から、一番気になるものを直感で選んでください。
+      </p>
+
+      <div class="grid">
+        <button class="choice" onclick="showResult('sky')">
+          <img src="sky.png" alt="青空">
+          <div class="choice-label">① 青空</div>
+        </button>
+
+        <button class="choice" onclick="showResult('coffee')">
+          <img src="coffee.png" alt="コーヒーカップ">
+          <div class="choice-label">② コーヒーカップ</div>
+        </button>
+
+        <button class="choice" onclick="showResult('night')">
+          <img src="night.png" alt="夜景">
+          <div class="choice-label">③ 夜景</div>
+        </button>
+
+        <button class="choice" onclick="showResult('cat')">
+          <img src="cat.png" alt="猫">
+          <div class="choice-label">④ 猫</div>
+        </button>
+      </div>
+
+      <div id="result" class="result" aria-live="polite"></div>
+
+      <div class="actions">
+        <button class="reset-btn" onclick="resetResult()">もう一度選ぶ</button>
+      </div>
+
+      <p class="note">画像をタップすると診断結果が表示されます。</p>
+    </div>
+  </div>
+
+  <script>
+    const results = {
+      sky: {
+        title: '① 青空を選んだ人',
+        type: '爽やかタイプ',
+        text: '明るくて話しかけやすい印象を持たれやすい人。\n初対面でも安心感を与えるタイプです。\n自然体で接することができるため、人から好かれやすい傾向があります。'
+      },
+      coffee: {
+        title: '② コーヒーを選んだ人',
+        type: '落ち着きタイプ',
+        text: '冷静で大人っぽい印象を持たれやすい人。\n最初は少しクールに見られることもありますが、\n話してみると優しい人だと思われることが多いです。'
+      },
+      night: {
+        title: '③ 夜景を選んだ人',
+        type: 'ミステリアスタイプ',
+        text: '少し謎めいた魅力的な印象を持たれやすい人。\n「どんな人なんだろう」と興味を持たれやすいタイプです。'
+      },
+      cat: {
+        title: '④ 猫を選んだ人',
+        type: '親しみやすいタイプ',
+        text: '柔らかい雰囲気で話しかけやすい印象を持たれやすい人。\n初対面でも距離が縮まりやすく、\n周りから安心されることが多いです。'
+      }
+    };
+
+    function showResult(key) {
+      const resultBox = document.getElementById('result');
+      const data = results[key];
+
+      resultBox.innerHTML = `
+        <h2>診断結果</h2>
+        <h3>${data.title}<br>${data.type}</h3>
+        <p>${data.text}</p>
+      `;
+
+      resultBox.classList.add('show');
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetResult() {
+      const resultBox = document.getElementById('result');
+      resultBox.classList.remove('show');
+      resultBox.innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
